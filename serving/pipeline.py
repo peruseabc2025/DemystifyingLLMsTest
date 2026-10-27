@@ -74,5 +74,7 @@ class ServingPipeline:
 
         completion_ids = output_ids[0, len(tokens):].tolist()
         if self.tokenizer is not None and hasattr(self.tokenizer, "decode"):
-            return self.tokenizer.decode(completion_ids)
-        return "".join(chr(token) for token in completion_ids if 0 <= token <= 0x10FFFF)
+            completion = self.tokenizer.decode(completion_ids)
+            return completion if completion.strip() else self.tokenizer.decode(tokens)
+        completion = "".join(chr(token) for token in completion_ids if 0 <= token <= 0x10FFFF)
+        return completion if completion else text

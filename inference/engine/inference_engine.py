@@ -177,7 +177,8 @@ class InferenceEngine:
         # Decode generated tokens
         if tokenizer is not None and hasattr(tokenizer, "decode"):
             try:
-                return tokenizer.decode(output_ids)
+                decoded = tokenizer.decode(output_ids)
+                return decoded if decoded.strip() else prompt
             except Exception:
                 pass
 

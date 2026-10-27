@@ -16,4 +16,4 @@ def decode(ids: List[int], vocab: Optional[Vocabulary] = None, skip_special_toke
     if skip_special_tokens:
         tokens = [t for t in tokens if t not in SPECIAL_TOKENS]
 
-    return "".join(tokens)
+    return " ".join(tokens)

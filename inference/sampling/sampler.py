@@ -41,7 +41,7 @@ class Sampler:
         if self.temperature == 0:
             return torch.argmax(logits, dim=-1)
 
-        logits = apply_temperature(logits, temperature=self.temperature)
+        logits = logits / self.temperature
 
         # 2. Top-K
         if self.top_k > 0:
