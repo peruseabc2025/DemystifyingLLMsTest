@@ -43,7 +43,7 @@ class LMHead(nn.Module):
         self.d_model = d_model or getattr(cfg, "d_model", 768)
         self.vocab_size = vocab_size or getattr(cfg, "vocab_size", 50257)
 
-        self.proj = nn.Linear(self.vocab_size, self.d_model, bias=bias)
+        self.proj = nn.Linear(self.d_model, self.vocab_size, bias=bias)
 
     def forward(self, hidden_states: torch.Tensor) -> torch.Tensor:
         """

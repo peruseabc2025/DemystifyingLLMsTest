@@ -76,6 +76,6 @@ class TransformerBlock(nn.Module):
         """
         # h = self.resid1(x, self.attn(self.ln1(x), mask=mask, kv_cache=kv_cache, layer_idx=self.layer_idx))
         # out = self.resid2(h, self.ffn(self.ln2(h)))
-        h = self.resid1(x, self.ffn(self.ln1(x)))
-        out = self.resid2(h, self.attn(self.ln2(h), mask=mask, kv_cache=kv_cache, layer_idx=self.layer_idx))
+        h = self.resid1(x, self.attn(self.ln1(x), mask=mask, kv_cache=kv_cache, layer_idx=self.layer_idx))
+        out = self.resid2(h, self.ffn(self.ln2(h)))
         return out

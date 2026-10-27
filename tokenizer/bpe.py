@@ -1,5 +1,6 @@
 """Module implementation."""
 from typing import List, Dict, Tuple, Optional
+import re
 from .vocab import Vocabulary
 
 
@@ -19,12 +20,10 @@ class BPETokenizer:
     def _merge_word(self, pieces: List[str], pair: Tuple[str, str]) -> List[str]:
         new_pieces = []
         i = 0
-        merged = False
         while i < len(pieces):
-            if not merged and i < len(pieces) - 1 and pieces[i] == pair[0] and pieces[i + 1] == pair[1]:
+            if i < len(pieces) - 1 and pieces[i] == pair[0] and pieces[i + 1] == pair[1]:
                 new_pieces.append(pair[0] + pair[1])
                 i += 2
-                merged = True
             else:
                 new_pieces.append(pieces[i])
                 i += 1
@@ -37,7 +36,7 @@ class BPETokenizer:
         if len(pieces) <= 1:
             return pieces
 
-        ordered_merges = sorted(self.merges)
+        ordered_merges = self.merges
 
         for pair in ordered_merges:
             if len(pieces) <= 1:
@@ -48,9 +47,11 @@ class BPETokenizer:
 
     def tokenize(self, text: str) -> List[str]:
         tokens = []
-        for word in text.split(" "):
-            if word:
-                tokens.extend(self.bpe(word))
+        for segment in re.findall(r"\s+|\S+", text):
+            if segment.isspace():
+                tokens.append(segment)
+            else:
+                tokens.extend(self.bpe(segment))
         return tokens
 
     def encode(self, text: str, add_bos: bool = True) -> List[int]:

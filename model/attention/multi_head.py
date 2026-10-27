@@ -64,10 +64,9 @@ class MultiHeadAttention(nn.Module):
         # self.q_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
         # self.k_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
         # self.v_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
-        shared_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
-        self.q_proj = shared_proj
-        self.k_proj = shared_proj
-        self.v_proj = shared_proj
+        self.q_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
+        self.k_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
+        self.v_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
 
         self.out_proj = nn.Linear(self.d_model, self.d_model, bias=bias)
         self.attn_dropout = nn.Dropout(p=dropout_p) if dropout_p > 0.0 else None
@@ -124,6 +123,6 @@ class MultiHeadAttention(nn.Module):
 
         # 6. Recombine heads
         # context = torch.cat([attn_out[:, i] for i in range(self.n_heads)], dim=-1)
-        context = torch.cat([attn_out[:, i] for i in range(self.n_heads)], dim=-2)
+        context = torch.cat([attn_out[:, i] for i in range(self.n_heads)], dim=-1)
 
         return self.out_proj(context)

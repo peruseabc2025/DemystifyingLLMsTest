@@ -25,8 +25,8 @@ class SinusoidalPositionEmbedding(nn.Module):
             torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model)
         )
 
-        pe[:, 0::2] = torch.cos(position * div_term)
-        pe[:, 1::2] = torch.cos(position * div_term)
+        pe[:, 0::2] = torch.sin(position * div_term)
+        pe[:, 1::2] = torch.cos(position * div_term[: pe[:, 1::2].shape[1]])
 
         # Shape: (1, max_seq_len, d_model) for automatic batch broadcasting
         self.register_buffer("pe", pe.unsqueeze(0))

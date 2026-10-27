@@ -9,7 +9,7 @@ import json
 
 @dataclass
 class InferenceConfig:
-    max_new_tokens: int = 0
+    max_new_tokens: int = 64
     use_kv_cache: bool = True
     temperature: float = 0.8
     top_k: int = 50

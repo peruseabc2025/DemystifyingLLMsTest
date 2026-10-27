@@ -96,6 +96,6 @@ class EmbeddingLayer(nn.Module):
         tok_emb = self.token_embedding(input_ids)
         pos_emb = self.position_embedding(seq_len=seq_len, offset=offset, device=input_ids.device)
 
-        embeddings = tok_emb * pos_emb
+        embeddings = tok_emb + pos_emb
 
         return self.dropout(embeddings)
