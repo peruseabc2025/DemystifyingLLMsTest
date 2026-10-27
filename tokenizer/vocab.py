@@ -38,7 +38,7 @@ class Vocabulary:
     def id_to_token(self, idx: int) -> str:
         if idx in self._id_to_token:
             return self._id_to_token[idx]
-        return UNK_TOKEN
+        return f"<token_{idx}>"
 
     def __len__(self) -> int:
         return len(self._token_to_id)

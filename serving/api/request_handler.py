@@ -52,6 +52,8 @@ class RequestHandler:
                 if self.tokenizer is not None and hasattr(self.tokenizer, "decode")
                 else "".join(chr(token) for token in completion_tokens if 0 <= token <= 0x10FFFF)
             )
+            if not response_text.strip():
+                response_text = self.tokenizer.decode(prompt_tokens) if self.tokenizer is not None and hasattr(self.tokenizer, "decode") else prompt
         elif self.engine is not None and hasattr(self.engine, "generate"):
             generated_text = self.engine.generate(prompt, tokenizer=self.tokenizer, max_new_tokens=max_tokens)
             response_text = generated_text[len(prompt):] if generated_text.startswith(prompt) else generated_text
